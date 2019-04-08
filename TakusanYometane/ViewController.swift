@@ -27,6 +27,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func bookNameSearchBtn(_ sender: Any) {
         let title = bookNameInput.text!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let url = "https://www.googleapis.com/books/v1/volumes?q=intitle:\(title!)"
+        titles = []
         getURL(url: url)
     }
     
@@ -42,10 +43,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let volumeInfo = dicItem["volumeInfo"] as! [String: Any]
                 let title = volumeInfo["title"]
                 print(title as! String)
-                titles[(item as AnyObject).count] = title as! String
+                titles.append(title as! String)
+                // count: fatal error: index out of range
+                //titles[(item as AnyObject).count] = title as! String
 //                self.bookNameLabel.text = title as? String
             }
             
+            for list in bookNameList {
+                list.reloadData()
+            }
             
             //            let title: String = items["0"].title
             //            let query = json["query"] as! [String:Any]
